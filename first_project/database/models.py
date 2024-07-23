@@ -11,3 +11,11 @@ class UserProfile(models.Model):
     user_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=25)
     email = models.EmailField(unique=True)
+
+
+# User model data
+# email- test2@test.com
+# pass - test2
+
+# email- test3@test.com
+# pass - test3

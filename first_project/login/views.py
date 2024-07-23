@@ -61,7 +61,8 @@ def check_user_login(request):
             login(request, user)
             data = {"user": request.POST["email"]}
 
-            return render(request, "index.html", data)
+            # return render(request, "index.html", data)
+            return JsonResponse(data)
 
 
 def user_logout(request):
