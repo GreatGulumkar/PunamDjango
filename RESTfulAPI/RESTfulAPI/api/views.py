@@ -16,46 +16,49 @@ from database.models import product
 
 from django.core.serializers import serialize
 
+
 @api_view(["POST"])  # we specify which REST method this api will use.
 def create_product(request):
     if request.method == "POST":
-        name = request.data["name"]
-        description = request.data["description"]
 
         # if price and description and name:
         #     return Response("Data recieved by backend successfully",status=status.HTTP_200_OK)
         #     # return HttpResponse/JSONresponse/render/redirct
 
         try:
+            name = request.data["name"]
+            description = request.data["description"]
             product.objects.create(
                 name=name,
                 description=description,
                 price=request.data["price"],
             )
-        
-            return Response("Data recieved by backend successfully",status=status.HTTP_200_OK)
-        except:
-            return Response("Something went worng",status=status.HTTP_400_BAD_REQUEST)
 
-        
+            return Response(
+                "Data recieved by backend successfully", status=status.HTTP_200_OK
+            )
+        except:
+            return Response("Something went worng", status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(["GET"])  # we specify which REST method this api will use.
 def get_all_product(request):
     if request.method == "GET":
-        products = product.objects.all()
 
         queryset = product.objects.all()
 
-        serial = serialize("json",queryset)
+        serial = serialize("json", queryset)
         return HttpResponse(serial)
-    
 
-@api_view(["GET"])  
+
+@api_view(["GET"])
 def count_products(request):
     if request.method == "GET":
         count = product.objects.count()
 
         return HttpResponse(count)
-    
+
+
 @api_view(["POST"])
 def delete_products(request):
     """
@@ -64,9 +67,19 @@ def delete_products(request):
     }
     """
     if request.method == "POST":
-        try :
+        try:
             product.objects.filter(name=request.data["name"]).delete()
 
-            return Response("Product delete successfully",status=status.HTTP_200_OK)
+            return Response("Product delete successfully", status=status.HTTP_200_OK)
         except:
-            return Response("Something went worng",status=status.HTTP_400_BAD_REQUEST)
+            return Response("Something went worng", status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])  # we specify which REST method this api will use.
+def get_product(request, pk):
+    if request.method == "GET":
+
+        queryset = product.objects.filter(pk=pk)
+
+        serial = serialize("json", queryset)
+        return HttpResponse(serial)

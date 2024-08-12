@@ -7,7 +7,5 @@ urlpatterns = [
     path("products/", view=views.get_all_product, name="get_all_product"),
     path("count/", view=views.count_products, name="count_products"),
     path("delete/", view=views.delete_products, name="delete_products"),
-    
-
+    path("product/<slug:pk>", view=views.get_product, name="get_product"),
 ]
-
